@@ -1,0 +1,6 @@
+*.pyc
+datasets/humanml3d/
+checkpoints/
+deps/
+results/
+demo/
