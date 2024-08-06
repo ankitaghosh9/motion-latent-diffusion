@@ -2,7 +2,15 @@ import os
 import warnings
 from pathlib import Path
 
-import hydra
+try:
+    import hydra
+except ImportError:
+    raise ImportError(
+        print("hydra import error")
+    )
+else:
+    print("hydra import works")
+
 from mld.tools.runid import generate_id
 from omegaconf import OmegaConf
 

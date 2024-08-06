@@ -13,6 +13,8 @@ GT_SMPL = body_material(0.035, 0.415, 0.122)
 # Oranges => cmap(0.87)
 GEN_SMPL = body_material(0.658, 0.214, 0.0114)
 
+import sys
+sys.path.append('/home/ankitaghosh/.local/lib/python3.10/site-packages')
 
 class Meshes:
     def __init__(self, data, *, gt, mode, faces_path, canonicalize, always_on_floor, oldrender=True, **kwargs):

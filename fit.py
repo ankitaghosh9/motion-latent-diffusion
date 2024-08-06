@@ -18,6 +18,7 @@ import numpy as np
 import smplx
 import torch
 import trimesh
+import pickle
 
 from mld.transforms.joints2rots import config
 from mld.transforms.joints2rots.smplify import SMPLify3D
@@ -205,8 +206,10 @@ for path in paths:
             pred_cam_t[0, :] = cam_trans_zero
         else:
             # ToDo-use previous results rather than loading
-            data_param = joblib.load(
-                dir_save + "/" + "motion_%04d" % (idx - 1) + ".pkl")
+            # data_param = joblib.load(
+            #     dir_save + "/" + "motion_%04d" % (idx - 1) + ".pkl")
+            with open((dir_save + "/" + "motion_%04d" % (idx - 1) + ".pkl"), "rb") as handle:
+                data_param = pickle.load(handle)
             pred_betas[0, :] = torch.from_numpy(
                 data_param["beta"]).unsqueeze(0).float()
             pred_pose[0, :] = torch.from_numpy(
@@ -272,8 +275,15 @@ for path in paths:
         param["beta"] = new_opt_betas.detach().cpu().numpy()
         param["pose"] = new_opt_pose.detach().cpu().numpy()
         param["cam"] = new_opt_cam_t.detach().cpu().numpy()
-        joblib.dump(param, dir_save + "/" + "motion_%04d" %
-                    idx + ".pkl", compress=3)
+        # print("beta values:", param["beta"].shape, "\n", param["beta"])
+        # print("pose values:", param["pose"].shape, "\n", param["pose"])
+        # print("cam values:", param["cam"].shape, "\n", param["cam"])
+
+        with open((dir_save + "/" + "motion_%04d" %idx + ".pkl"), 'wb') as handle:
+            pickle.dump(param, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+        # joblib.dump(param, dir_save + "/" + "motion_%04d" %
+        #             idx + ".pkl", compress=3)
         print("Output: " + dir_save + "/" + "motion_%04d" % idx + ".pkl")
 
     print("merge ply to npy for mesh rendering")

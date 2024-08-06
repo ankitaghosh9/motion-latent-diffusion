@@ -2,6 +2,8 @@ import math
 import os
 import sys
 
+sys.path.append('/home/ankitaghosh/.local/lib/python3.10/site-packages')
+
 import bpy
 import numpy as np
 
